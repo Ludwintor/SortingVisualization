@@ -38,7 +38,7 @@
             this._countLabel = new System.Windows.Forms.Label();
             this._sortPicture = new System.Windows.Forms.PictureBox();
             this._displayComboBox = new System.Windows.Forms.ComboBox();
-            this._displayTypeLabel = new System.Windows.Forms.Label();
+            this._displayModeLabel = new System.Windows.Forms.Label();
             this._reverseCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this._elementsCounter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._delayCounter)).BeginInit();
@@ -68,7 +68,7 @@
             // _generationComboBox
             // 
             this._generationComboBox.FormattingEnabled = true;
-            this._generationComboBox.Location = new System.Drawing.Point(252, 34);
+            this._generationComboBox.Location = new System.Drawing.Point(252, 35);
             this._generationComboBox.Name = "_generationComboBox";
             this._generationComboBox.Size = new System.Drawing.Size(142, 23);
             this._generationComboBox.TabIndex = 3;
@@ -156,19 +156,19 @@
             // _displayComboBox
             // 
             this._displayComboBox.FormattingEnabled = true;
-            this._displayComboBox.Location = new System.Drawing.Point(92, 34);
+            this._displayComboBox.Location = new System.Drawing.Point(92, 35);
             this._displayComboBox.Name = "_displayComboBox";
             this._displayComboBox.Size = new System.Drawing.Size(142, 23);
             this._displayComboBox.TabIndex = 11;
             // 
-            // _displayTypeLabel
+            // _displayModeLabel
             // 
-            this._displayTypeLabel.AutoSize = true;
-            this._displayTypeLabel.Location = new System.Drawing.Point(92, 16);
-            this._displayTypeLabel.Name = "_displayTypeLabel";
-            this._displayTypeLabel.Size = new System.Drawing.Size(72, 15);
-            this._displayTypeLabel.TabIndex = 12;
-            this._displayTypeLabel.Text = "Display Type";
+            this._displayModeLabel.AutoSize = true;
+            this._displayModeLabel.Location = new System.Drawing.Point(92, 16);
+            this._displayModeLabel.Name = "_displayModeLabel";
+            this._displayModeLabel.Size = new System.Drawing.Size(79, 15);
+            this._displayModeLabel.TabIndex = 12;
+            this._displayModeLabel.Text = "Display Mode";
             // 
             // _reverseCheckBox
             // 
@@ -182,11 +182,11 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(913, 748);
             this.Controls.Add(this._reverseCheckBox);
-            this.Controls.Add(this._displayTypeLabel);
+            this.Controls.Add(this._displayModeLabel);
             this.Controls.Add(this._displayComboBox);
             this.Controls.Add(this._sortPicture);
             this.Controls.Add(this._countLabel);
@@ -199,7 +199,7 @@
             this.Controls.Add(this._sortButton);
             this.DoubleBuffered = true;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Sorting Visualization";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this._elementsCounter)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._delayCounter)).EndInit();
@@ -220,7 +220,7 @@
         private Label _countLabel;
         private PictureBox _sortPicture;
         private ComboBox _displayComboBox;
-        private Label _displayTypeLabel;
+        private Label _displayModeLabel;
         private CheckBox _reverseCheckBox;
     }
 }
