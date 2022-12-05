@@ -87,7 +87,7 @@ namespace SortingVisualization
 
         private void GifButton_Click(object sender, EventArgs e)
         {
-            if (_array == null)
+            if (_array == null || _isBusy)
                 return;
             SaveFileDialog dialog = new()
             {
@@ -96,18 +96,24 @@ namespace SortingVisualization
             };
             if (dialog.ShowDialog() != DialogResult.OK)
                 return;
+            _isBusy = true;
+            string fileName = dialog.FileName;
+            dialog.Dispose();
             IntroSort sort = new();
             _currentDelay = (int)_delayCounter.Value;
             int[] array = new int[_array.Length];
             _array.CopyTo(array, 0);
-            using Bitmap frame = new(_sortPicture.Width, _sortPicture.Height);
-            using GifWriter writer = new(dialog.FileName);
-            Redraw(array, frame, -1);
-            writer.WriteFrame(frame);
-            sort.Sort(array, _reverseCheckBox.Checked, null, i => GifStep(array, frame, writer, i));
-            Redraw(array, frame, -1);
-            writer.WriteFrame(frame, 2000);
+            using (Bitmap frame = new(_sortPicture.Width, _sortPicture.Height))
+            {
+                using GifWriter writer = new(fileName);
+                Redraw(array, frame, -1);
+                writer.WriteFrame(frame, _currentDelay);
+                sort.Sort(array, _reverseCheckBox.Checked, null, i => GifStep(array, frame, writer, i));
+                Redraw(array, frame, -1);
+                writer.WriteFrame(frame, 2000);
+            }
             MessageBox.Show("GIF created!");
+            _isBusy = false;
         }
 
         private void SortPicture_Paint(object sender, PaintEventArgs e)
@@ -227,7 +233,7 @@ namespace SortingVisualization
         private void GifStep(int[] array, Bitmap frame, GifWriter writer, int index)
         {
             Redraw(array, frame, index);
-            writer.WriteFrame(frame);
+            writer.WriteFrame(frame, Math.Max(_currentDelay, 20));
         }
 
         private void Redraw(int[] array, Bitmap bitmap, int index)

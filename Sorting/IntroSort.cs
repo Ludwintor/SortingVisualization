@@ -43,9 +43,9 @@
             else
             {
                 depthLimit--;
-                int pivot = Partition(array, start, end, selector, comparer, onStep);
-                IntroSorting(array, start, pivot - 1, depthLimit, selector, comparer, onStep);
-                IntroSorting(array, pivot + 1, end, depthLimit, selector, comparer, onStep);
+                (int left, int right) = Partition(array, start, end, selector, comparer, onStep);
+                IntroSorting(array, start, right, depthLimit, selector, comparer, onStep);
+                IntroSorting(array, left, end, depthLimit, selector, comparer, onStep);
             }
         }
 
@@ -97,24 +97,34 @@
             }
         }
 
-        private static int Partition<TSource, TKey>(TSource[] array, int start, int end, Func<TSource, TKey> selector,
+        private static (int, int) Partition<TSource, TKey>(TSource[] array, int start, int end, Func<TSource, TKey> selector,
                                                     Comparison<TKey> comparer, Action<int>? onStep)
         {
-            int pivotIndex = start;
-            onStep?.Invoke(pivotIndex);
-            TKey pivotValue = selector(array[end]);
-            for (int i = start; i < end; i++)
+            int middle = start + (end - start) / 2;
+            TKey pivot = selector(array[middle]);
+            int left = start;
+            int right = end;
+            while (left <= right)
             {
-                if (comparer(selector(array[i]), pivotValue) < 0)
+                while (comparer(selector(array[left]), pivot) < 0)
                 {
-                    Swap(array, i, pivotIndex);
-                    pivotIndex++;
-                    onStep?.Invoke(pivotIndex);
+                    left++;
+                    onStep?.Invoke(left);
+                }
+                while (comparer(selector(array[right]), pivot) > 0)
+                {
+                    right--;
+                    onStep?.Invoke(right);
+                }
+                if (left <= right)
+                {
+                    Swap(array, left, right);
+                    onStep?.Invoke(left);
+                    left++;
+                    right--;
                 }
             }
-            Swap(array, pivotIndex, end);
-            onStep?.Invoke(pivotIndex);
-            return pivotIndex;
+            return (left, right);
         }
 
         private static void Swap<T>(T[] array, int lhs, int rhs)

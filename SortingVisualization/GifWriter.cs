@@ -4,6 +4,8 @@ namespace SortingVisualization
 {
     public sealed class GifWriter : IDisposable
     {
+        private const int MIN_DELAY_MS = 20;
+
         private readonly BinaryWriter _writer;
         private readonly MemoryStream _memory;
         private readonly int _repeat;
@@ -28,8 +30,9 @@ namespace SortingVisualization
         /// </summary>
         /// <param name="image">Next frame</param>
         /// <param name="delay">Delay after this frame in milliseconds</param>
-        public void WriteFrame(Image image, int delay = 100)
+        public void WriteFrame(Image image, int delay = MIN_DELAY_MS)
         {
+            delay = Math.Max(delay, MIN_DELAY_MS);
             _memory.Position = 0;
             image.Save(_memory, ImageFormat.Gif);
             if (_frames == 0)
