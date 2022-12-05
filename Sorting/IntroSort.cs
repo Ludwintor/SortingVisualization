@@ -32,7 +32,7 @@
         private static void IntroSorting<TSource, TKey>(TSource[] array, int start, int end, int depthLimit, Func<TSource, TKey> selector,
                                                         Comparison<TKey> comparer, Action<int>? onStep)
         {
-            if (end - start <= SIZE_THRESHOLD)
+            if (end - start < SIZE_THRESHOLD)
             {
                 InsertionSort(array, start, end, selector, comparer, onStep);
             }
@@ -43,9 +43,9 @@
             else
             {
                 depthLimit--;
-                int index = Partition(array, start, end, selector, comparer, onStep);
-                IntroSorting(array, start, index - 1, depthLimit, selector, comparer, onStep);
-                IntroSorting(array, index + 1, end, depthLimit, selector, comparer, onStep);
+                int pivot = Partition(array, start, end, selector, comparer, onStep);
+                IntroSorting(array, start, pivot - 1, depthLimit, selector, comparer, onStep);
+                IntroSorting(array, pivot + 1, end, depthLimit, selector, comparer, onStep);
             }
         }
 
@@ -82,13 +82,13 @@
                                            Comparison<TKey> comparer, Action<int>? onStep)
         {
             int largest = root;
-            int l = 2 * root + 1;
-            int r = 2 * root + 2;
+            int left = 2 * root + 1;
+            int right = 2 * root + 2;
 
-            if (l < heapCount && comparer(selector(array[start + l]), selector(array[start + largest])) > 0)
-                largest = l;
-            if (r < heapCount && comparer(selector(array[start + r]), selector(array[start + largest])) > 0)
-                largest = r;
+            if (left < heapCount && comparer(selector(array[start + left]), selector(array[start + largest])) > 0)
+                largest = left;
+            if (right < heapCount && comparer(selector(array[start + right]), selector(array[start + largest])) > 0)
+                largest = right;
             onStep?.Invoke(start + largest);
             if (largest != root)
             {
